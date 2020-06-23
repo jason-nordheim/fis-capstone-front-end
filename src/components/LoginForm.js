@@ -1,16 +1,18 @@
 import React, { useState} from 'react'
-
+import { capatalize } from '../helpers'
 
 export default function LoginForm({ saveToken }) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [errorMessage, setErrorMessage] = useState(null)
+    const [message, setMessage] = useState(null)
 
     /* events */
     const updateUsername = event => setUsername(event.target.value)
     const updatePassword = event => setPassword(event.target.value)
+
     const handleSubmit = event => {
         event.preventDefault() 
+        setMessage(null) 
         login()
     }
 
@@ -24,7 +26,10 @@ export default function LoginForm({ saveToken }) {
             console.log('response', response)
             return response.json()
         })
-        .then(data => setErrorMessage(data.error))
+        .then(data => {
+            if (data.error) return setMessage(`Error: ${data.error}`)
+            setMessage('Success!')
+        })
     }
 
     
@@ -51,8 +56,8 @@ export default function LoginForm({ saveToken }) {
             </form>
             <div>
             {
-                errorMessage 
-                    ? <span>{`error: ${errorMessage.error}`}</span>
+                message 
+                    ? <span>{message}</span>
                     : null 
             }
             </div>

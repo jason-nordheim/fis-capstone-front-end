@@ -9,3 +9,6 @@ export const getToken = () => {
 }
 
 
+export const capatalize = (string) => {
+    return string.toString().charAt(0).toUpperCase() + string.toString().slice(1);
+}
